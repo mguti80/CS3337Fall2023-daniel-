@@ -34,3 +34,10 @@ class Comment(models.Model):
 
     def __str__(self):
         return str(self.id)
+
+class Favorite(models.Model):
+        username = models.ForeignKey(User, blank=True, null=True, on_delete=models.CASCADE)
+        book_id = models.IntegerField(default=0)
+
+        def __str__(self):
+            return str(self.id)
