@@ -14,6 +14,7 @@ urlpatterns = [
     path('mybooks/postcomment/<int:book_id>', views.postcomment, name="postcomment"),
     path('displaybooks/postcomment/<int:book_id>', views.postcomment, name="postcomment"),
     path('book_detail/postcomment/<int:book_id>', views.postcomment, name="postcomment"),
-
+    path('myfavorites', views.myfavorites, name='myfavorites'),
+    path('addfavorite/<int:book_id>', views.addfavorite, name='addfavorite'),
+    path('deletefavorite/<int:book_id>', views.deletefavorite, name='deletefavorite'),
 ]
-
