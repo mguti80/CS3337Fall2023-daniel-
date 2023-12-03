@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block title %}
+    Book Deleted
+{% endblock title %}
+
+{% block sidenav %}
+    {% for item in item_list %}
+        <li style="padding-right: 10%;">
+            <a href="{{ item.link }}">{{ item.item }}</a>
+        </li>
+    {% endfor %}
+{% endblock sidenav %}
+
+{% block content %}
+
+<h1>Book Deleted from your Favorites List!</h1>
+<a href="{% url 'myfavorites' %}">
+<button>Go Back</button>
+</a>
+
+{% endblock content %}
