@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block title %}
+    My Favorites
+{% endblock title %}
+
+{% block sidenav %}
+    {% for item in item_list %}
+        <li style="padding-right: 10%;">
+            <a href="{{ item.link  }}">{{ item.item }}</a>
+        </li>
+    {% endfor %}
+{% endblock sidenav %}
+
+{% block content %}
+
+<h1>My Favorites</h1>
+<table align="center" border="2" width="400" class="table table-hover">
+    {% for book in books %}
+    <tr>
+        <td>
+            <a href="book_detail/{{ book.id }}">
+                {{ book.name }}
+            </a>
+        </td>
+        <td>
+            <a href="deletefavorite/{{ book.id }}">
+                Delete
+            </a>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+
+
+{% endblock content %}
