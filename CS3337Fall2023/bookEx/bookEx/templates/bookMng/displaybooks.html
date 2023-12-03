@@ -30,6 +30,9 @@
     <th>
        Add Comment
     </th>
+    <th>
+
+    </th>
 
     {% for book in books %}
       <tr>
@@ -45,8 +48,13 @@
           <img src="{% static book.pic_path %}" height="60" width="60" alt=""/>
         </td>
         <td align="center">
-            <a href="displaybooks/postcomment/{{book.id}}">
-                Comment
+          <a href="displaybooks/postcomment/{{book.id}}">
+            Comment
+          </a>
+        </td>
+        <td>
+            <a href="{% url 'addfavorite' book.id %}">
+                Favorite
             </a>
         </td>
       </tr>
