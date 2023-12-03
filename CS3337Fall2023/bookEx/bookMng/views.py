@@ -7,6 +7,8 @@ from .models import Book
 from django.views.generic.edit import CreateView
 from django.contrib.auth.forms import UserCreationForm
 from django.urls import reverse_lazy
+from .models import Favorite
+
 
 from .forms import CommentForm
 from .models import Comment
@@ -182,4 +184,57 @@ def postcommentpost(request):
                     'submitted': submitted,
 
                  })
+
+def myfavorites(request):
+    favorite_books = Favorite.objects.filter(username=request.user)
+    books = []
+    for fav_item in favorite_books:
+        books += Book.objects.filter(id=fav_item.book_id)
+
+    for b in books:
+        b.pic_path = b.picture.url[14:]
+    return render(request,
+                  'bookMng/myfavorites.html',
+                  {
+                      'item_list': MainMenu.objects.all(),
+                      'books': books
+                  })
+
+def addfavorite(request, book_id):
+    # book = Book.objects.get(id=book_id)
+    inDB = False
+
+    for entry in Favorite.objects.all():
+        if (entry.username == request.user and entry.book_id == book_id):
+            inDB = True
+
+    if inDB:
+        pass
+
+    else:
+        entry = Favorite.objects.create()
+        try:
+            entry.username = request.user
+            entry.book_id = int(book_id)
+        except Exception:
+            pass
+        entry.save()
+
+    return render(request,
+                  'bookMng/addfavorite.html',
+                  {
+                      'item_list': MainMenu.objects.all()
+                  })
+
+def deletefavorite(request, book_id):
+        favorite_book = Favorite.objects.filter(username=request.user, book_id=book_id)
+
+        favorite_book.delete()
+        return render(request,
+                      'bookMng/deletefavorite.html',
+                      {
+                          'item_list': MainMenu.objects.all(),
+                      })
+
+
 
