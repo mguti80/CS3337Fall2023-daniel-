@@ -41,3 +41,10 @@ class Favorite(models.Model):
 
         def __str__(self):
             return str(self.id)
+
+class ShoppingCart(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    books = models.ManyToManyField(Book)
+
+    def __str__(self):
+        return f"Shopping Cart for {self.user.username}"

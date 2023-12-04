@@ -2,12 +2,15 @@ from django.http import HttpResponse
 from django.shortcuts import render
 from .models import MainMenu
 from .forms import BookForm
+from .models import ShoppingCart
 from django.http import HttpResponseRedirect
 from .models import Book
 from django.views.generic.edit import CreateView
 from django.contrib.auth.forms import UserCreationForm
 from django.urls import reverse_lazy
 from .models import Favorite
+from django.shortcuts import render, redirect, get_object_or_404
+
 
 
 from .forms import CommentForm
@@ -238,3 +241,39 @@ def deletefavorite(request, book_id):
 
 
 
+
+@login_required(login_url=reverse_lazy('login'))
+def viewcart(request):
+    shopping_cart, created = ShoppingCart.objects.get_or_create(user=request.user)
+    books = shopping_cart.books.all()
+
+    total_price = sum(book.price for book in books)
+
+    return render(request,
+                  'bookMng/shoppingCart.html',
+                  {
+                      'item_list': MainMenu.objects.all(),
+                      'books': books,
+                      'total_price': total_price,
+                  }
+                  )
+
+
+@login_required(login_url=reverse_lazy('login'))
+def addtocart(request, book_id):
+    book = get_object_or_404(Book, id=book_id)
+
+    shopping_cart, created = ShoppingCart.objects.get_or_create(user=request.user)
+    shopping_cart.books.add(book)
+
+    return redirect('displaybooks')
+
+
+@login_required(login_url=reverse_lazy('login'))
+def deletefromcart(request, book_id):
+    shopping_cart, created = ShoppingCart.objects.get_or_create(user=request.user)
+    book = get_object_or_404(Book, id=book_id)
+
+    if book in shopping_cart.books.all():
+        shopping_cart.books.remove(book)
+        return redirect('viewcart')

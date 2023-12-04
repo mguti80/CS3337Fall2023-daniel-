@@ -31,7 +31,9 @@
        Add Comment
     </th>
     <th>
-
+    </th>
+    <th>
+      <a href="{% url 'viewcart' %}">View cart</a>
     </th>
 
     {% for book in books %}
@@ -57,6 +59,9 @@
                 Favorite
             </a>
         </td>
+        <td align="center">
+             <a href="{% url 'addtocart' book_id=book.id %}">Add to Shopping Cart</a>
+         </td>
       </tr>
     {% endfor%}
   </table>
